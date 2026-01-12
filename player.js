@@ -1,117 +1,30 @@
-/**
- * StreamFlow Video Player
- * High-quality streaming video player with smart buffering
- */
+const input = document.getElementById("videoUrl");
+const button = document.getElementById("playBtn");
+const video = document.getElementById("player");
 
-class StreamFlowPlayer {
-    constructor() {
-        // DOM Elements
-        this.urlSection = document.getElementById('urlSection');
-        this.playerSection = document.getElementById('playerSection');
-        this.playerContainer = document.getElementById('playerContainer');
-        this.video = document.getElementById('videoPlayer');
-        this.urlInput = document.getElementById('videoUrl');
-        this.loadBtn = document.getElementById('loadBtn');
-        this.backBtn = document.getElementById('backBtn');
-        this.useProxyCheckbox = document.getElementById('useProxy');
-        
-        // Overlays
-        this.loadingOverlay = document.getElementById('loadingOverlay');
-        this.playOverlay = document.getElementById('playOverlay');
-        this.errorOverlay = document.getElementById('errorOverlay');
-        this.errorText = document.getElementById('errorText');
-        this.bufferIndicator = document.getElementById('bufferIndicator');
-        
-        // Controls
-        this.controls = document.getElementById('controls');
-        this.playPauseBtn = document.getElementById('playPauseBtn');
-        this.bigPlayBtn = document.getElementById('bigPlayBtn');
-        this.skipBackBtn = document.getElementById('skipBackBtn');
-        this.skipForwardBtn = document.getElementById('skipForwardBtn');
-        this.muteBtn = document.getElementById('muteBtn');
-        this.volumeSlider = document.getElementById('volumeSlider');
-        this.volumeFill = document.getElementById('volumeFill');
-        this.fullscreenBtn = document.getElementById('fullscreenBtn');
-        this.pipBtn = document.getElementById('pipBtn');
-        this.speedBtn = document.getElementById('speedBtn');
-        this.speedMenu = document.getElementById('speedMenu');
-        this.speedValue = document.getElementById('speedValue');
-        this.retryBtn = document.getElementById('retryBtn');
-        
-        // Progress
-        this.progressContainer = document.getElementById('progressContainer');
-        this.progressBuffer = document.getElementById('progressBuffer');
-        this.progressPlayed = document.getElementById('progressPlayed');
-        this.progressThumb = document.getElementById('progressThumb');
-        this.progressTooltip = document.getElementById('progressTooltip');
-        
-        // Time Display
-        this.currentTimeEl = document.getElementById('currentTime');
-        this.durationEl = document.getElementById('duration');
-        this.timeDisplay = document.getElementById('timeDisplay');
-        this.timeInputWrapper = document.getElementById('timeInputWrapper');
-        this.timeInput = document.getElementById('timeInput');
-        this.timeGoBtn = document.getElementById('timeGoBtn');
-        
-        // Stats
-        this.bufferPercent = document.getElementById('bufferPercent');
-        this.networkSpeed = document.getElementById('networkSpeed');
-        
-        // Shortcuts Modal
-        this.shortcutsModal = document.getElementById('shortcutsModal');
-        this.closeShortcuts = document.getElementById('closeShortcuts');
-        
-        // State
-        this.isPlaying = false;
-        this.isMuted = false;
-        this.isFullscreen = false;
-        this.controlsTimeout = null;
-        this.cursorTimeout = null;
-        this.lastVolume = 1;
-        this.currentUrl = '';
-        this.loadStartTime = 0;
-        this.bytesLoaded = 0;
-        
-        // Buffer Management
-        this.bufferCheckInterval = null;
-        this.targetBufferAhead = 60; // seconds to buffer ahead
-        this.historyBufferRatio = 0.10; // 10% of watched video as history buffer
-        this.maxWatchedPosition = 0; // track furthest watched position
-        this.bufferRanges = []; // store all buffer ranges for visualization
-        
-        // Network speed tracking
-        this.lastBufferTime = 0;
-        this.lastBufferedAmount = 0;
-        this.networkSpeedSamples = [];
-        this.maxSpeedSamples = 10; // rolling average of last 10 samples
-        
-        // Range request support detection
-        this.supportsRangeRequests = null; // null = unknown, true/false after check
-        this.rangeRequestChecked = false;
-        
-        this.init();
-    }
-    
-    init() {
-        this.bindEvents();
-        this.setupVideoEvents();
-        this.updateVolumeUI();
-        
-        // Focus input on load
-        this.urlInput.focus();
-        
-        // Check for URL in query params
-        const params = new URLSearchParams(window.location.search);
-        const videoUrl = params.get('url');
-        if (videoUrl) {
-            this.urlInput.value = decodeURIComponent(videoUrl);
-            this.loadVideo();
-        }
-    }
-    
-    bindEvents() {
-        // URL Input
-        this.loadBtn.addEventListener('click', () => this.loadVideo());
+button.onclick = () => {
+  const url = input.value.trim();
+  if (!url) return;
+
+  // Native HLS (Safari, iOS)
+  if (video.canPlayType("application/vnd.apple.mpegurl")) {
+    video.src = url;
+    video.play();
+    return;
+  }
+
+  // HLS.js for Chrome, Android, desktop
+  if (window.Hls) {
+    const hls = new Hls();
+    hls.loadSource(url);
+    hls.attachMedia(video);
+    hls.on(Hls.Events.MANIFEST_PARSED, () => {
+      video.play();
+    });
+  } else {
+    alert("HLS not supported in this browser");
+  }
+};        this.loadBtn.addEventListener('click', () => this.loadVideo());
         this.urlInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') this.loadVideo();
         });
