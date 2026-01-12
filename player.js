@@ -330,7 +330,7 @@ class StreamFlowPlayer {
         const useProxy = this.useProxyCheckbox && this.useProxyCheckbox.checked;
         if (useProxy) {
             // Use local proxy server (run server.js with node)
-            url = `http://localhost:4000/proxy?url=${encodeURIComponent(url)}`;
+            url = `${window.location.origin}/proxy?url=${encodeURIComponent(url)}`;
             console.log('🔄 Using local proxy server for URL');
         }
         
