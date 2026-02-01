@@ -67,9 +67,9 @@ You should see:
 🎬 StreamFlow Proxy Server
 Open: http://localhost:4000
 
-
+```
 ---
-
+```
 🌐 Open the web player
 
 Open in your phone browser:
@@ -78,22 +78,22 @@ http://127.0.0.1:4000
 
 That is the WeStream UI.
 
-
+```
 ---
 
 🎥 Test it
 
 Paste this:
-
+```
 https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4
-
+```
 Turn Use Proxy ON
 Click Stream
 
 If Chrome blocks it, open VLC → Network Stream and paste:
-
+```
 http://127.0.0.1:4000/proxy?url=VIDEO_LINK
-
+```
 It will play.
 
 
