@@ -1,7 +1,7 @@
 
 <div align="center">
 
-# 🎬 WeStream  
+# 🎬 V-Stream  
 ### *A real-time video proxy & streaming engine running on your phone*
 
 <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExdHdvNWd1NG9nYW5uZ3VzMnhjbHRxZmt2bTRhZmFtc3l3YW9pYmU3ZyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/26BRzozg4TCBXv6QU/giphy.gif" width="600">
@@ -10,7 +10,7 @@
 
 ---
 
-## 🚀 What is WeStream?
+## 🚀 What is V-Stream?
 
 **WeStream** is a live video streaming proxy that lets you paste a video link and instantly stream it inside a custom web player.
 
@@ -176,7 +176,7 @@ Powered by Node.js, Termux, and stubbornness.
 
 ---
 
-<div align="center"><img src="https://media.giphy.com/media/l0HlQ7LRalZ8Z9kRi/giphy.gif" width="500">WeStream
+<div align="center"><img src="https://media.giphy.com/media/l0HlQ7LRalZ8Z9kRi/giphy.gif" width="500">V-Stream
 Your phone is now a streaming server.
 
 </div>
